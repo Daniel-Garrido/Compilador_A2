@@ -8,21 +8,28 @@
  */
 package package1;
 
+//librerias a usar
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
-
 public class Compilador extends javax.swing.JFrame {
 
+    //agregamos la clase numero de linea 
+    NumeroLinea numeroLinea;
     //declaramos las variables para el modelo de las tablas 
     private final DefaultTableModel modelTableToken = new DefaultTableModel(); //modelo para la tabla de simbolos
     private final DefaultTableModel modelTableError = new DefaultTableModel(); // modelo para la tabla de errores 
  
-    public Compilador() { //clase de nuestro frame 
+    //----------------clase de nuestro frame----------------------
+    public Compilador() {  
         setResizable(false);// bloquea el tamaño de la ventana 
         initComponents();
         
+       //agregar numero de linea al text area
+       numeroLinea = new NumeroLinea(jTextArea1);//AGREGAMOS La informacion al textarea
+       jScrollPane2.setRowHeaderView(numeroLinea);//hacemos que se muestre la informacion
+      
         //this.setExtendedState(this.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);//centrar la interfaz
         this.setTitle("Proyecto compilador automatas 2 Equipo 11");
@@ -134,11 +141,11 @@ public class Compilador extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -147,12 +154,12 @@ public class Compilador extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(40, 40, 40)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,8 +178,20 @@ public class Compilador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //btn Analizar programa 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       
+        String txtAnalizar = jTextArea1.getText();
+        if (txtAnalizar.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo vacio.\nIngrese un codigo \npara analizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int linea = 0;
+        
+        ModuloAnalizadorLexico analizadorLexico = new ModuloAnalizadorLexico(modelTableToken, modelTableError);
+        analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
+        JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //btn cerrar el programa 
@@ -193,36 +212,19 @@ public class Compilador extends javax.swing.JFrame {
       
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //btn limpiar el programa
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+      jTextArea1.setText(null); //limpia el contenido del TEXTAREA 
+        
+        if(modelTableToken.getRowCount() > 0 || modelTableError.getRowCount() > 0) {
+           modelTableToken.setRowCount(0); // limpia los datos de la tabla de simbolos
+           modelTableError.setRowCount(0); // limpia los datos de la tabla de errores
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     
+    //metodo main 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Compilador().setVisible(true);
