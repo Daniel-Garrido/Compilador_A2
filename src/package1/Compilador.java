@@ -9,12 +9,13 @@
 package package1;
 
 //librerias a usar
+import package1.AnalizadorLexico;
+import package1.ModuloAnalizadorLexico;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
 public class Compilador extends javax.swing.JFrame {
-
     //agregamos la clase numero de linea 
     NumeroLinea numeroLinea;
     //declaramos las variables para el modelo de las tablas 
@@ -32,7 +33,7 @@ public class Compilador extends javax.swing.JFrame {
       
         //this.setExtendedState(this.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);//centrar la interfaz
-        this.setTitle("Proyecto compilador automatas 2 Equipo 11");
+        this.setTitle("Proyecto compilador automatas 2 Equipo 11 Final");
         
         //objetos de nuestras tablas de errores y de simbolos
         JTable tablaSimbolos = new JTable();
@@ -141,25 +142,25 @@ public class Compilador extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(61, 61, 61)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -180,14 +181,18 @@ public class Compilador extends javax.swing.JFrame {
 
     //btn Analizar programa 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+ 
         String txtAnalizar = jTextArea1.getText();
-        if (txtAnalizar.isEmpty()) {
+        if (txtAnalizar.isEmpty()) {//verificar que exista un codigo para analizar 
             JOptionPane.showMessageDialog(null, "Campo vacio.\nIngrese un codigo \npara analizar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         int linea = 0;
+        
+        //AnalizadorLexico analizadorLexico = new AnalizadorLexico(modelTableToken, modelTableError);
+        //analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
+        //JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
         
         ModuloAnalizadorLexico analizadorLexico = new ModuloAnalizadorLexico(modelTableToken, modelTableError);
         analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
