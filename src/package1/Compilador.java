@@ -11,6 +11,8 @@ package package1;
 //librerias a usar
 import package1.AnalizadorLexico;
 import package1.ModuloAnalizadorLexico;
+import package1.AnalizadorLexico2;
+import package1.AnalizadorLexico3;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -19,7 +21,7 @@ public class Compilador extends javax.swing.JFrame {
     //agregamos la clase numero de linea 
     NumeroLinea numeroLinea;
     //declaramos las variables para el modelo de las tablas 
-    private final DefaultTableModel modelTableToken = new DefaultTableModel(); //modelo para la tabla de simbolos
+    private final DefaultTableModel modelTableSymbol = new DefaultTableModel(); //modelo para la tabla de simbolos
     private final DefaultTableModel modelTableError = new DefaultTableModel(); // modelo para la tabla de errores 
  
     //----------------clase de nuestro frame----------------------
@@ -40,9 +42,9 @@ public class Compilador extends javax.swing.JFrame {
         JTable tablaErrores = new JTable();
         
         //agregar datos a la tabla de simbolos
-        tablaSimbolos.setModel(modelTableToken);
-        modelTableToken.addColumn("lexema");
-        modelTableToken.addColumn("tipo de dato");
+        tablaSimbolos.setModel(modelTableSymbol);
+        modelTableSymbol.addColumn("lexema");
+        modelTableSymbol.addColumn("tipo de dato");
         jScrollPane1.setViewportView(tablaSimbolos);
         
         //Agregar datos a la tabla de errores
@@ -129,8 +131,8 @@ public class Compilador extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(16, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addComponent(jLabel2)
@@ -190,13 +192,26 @@ public class Compilador extends javax.swing.JFrame {
         
         int linea = 0;
         
-        //AnalizadorLexico analizadorLexico = new AnalizadorLexico(modelTableToken, modelTableError);
-        //analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
-        //JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
-        
-        ModuloAnalizadorLexico analizadorLexico = new ModuloAnalizadorLexico(modelTableToken, modelTableError);
-        analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
+//        AnalizadorLexico analizadorLexico = new AnalizadorLexico(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
+//        JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
+//        
+//        ModuloAnalizadorLexico analizadorLexico = new ModuloAnalizadorLexico(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
+//        JOptionPane.showMessageDialog(null, "Modulo analizador lexico.");
+//        
+       // AnalizadorLexico2 analizadorLexico = new AnalizadorLexico2(modelTableSymbol, modelTableError);
+       // analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
+       // JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
+//         AnalizadorLexico3 analizadorLexico = new AnalizadorLexico3(modelTableSymbol, modelTableError);
+//        analizadorLexico.procesarToken(jTextArea1.getText(), linea);
+//        JOptionPane.showMessageDialog(null, "AnalizadorLexico3");
+
+
+        AnalizadorLexico4 analizadorLexico = new AnalizadorLexico4(modelTableSymbol, modelTableError);
+        analizadorLexico.analizarExpresiones(jTextArea1.getText());
         JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //btn cerrar el programa 
@@ -221,8 +236,8 @@ public class Compilador extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
       jTextArea1.setText(null); //limpia el contenido del TEXTAREA 
         
-        if(modelTableToken.getRowCount() > 0 || modelTableError.getRowCount() > 0) {
-           modelTableToken.setRowCount(0); // limpia los datos de la tabla de simbolos
+        if(modelTableSymbol.getRowCount() > 0 || modelTableError.getRowCount() > 0) {
+           modelTableSymbol.setRowCount(0); // limpia los datos de la tabla de simbolos
            modelTableError.setRowCount(0); // limpia los datos de la tabla de errores
         }
     }//GEN-LAST:event_jButton3ActionPerformed
