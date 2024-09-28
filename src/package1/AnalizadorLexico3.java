@@ -20,6 +20,10 @@ public class AnalizadorLexico3 {
         this.operadoresAgregados = new HashSet<>();
     }
 
+    AnalizadorLexico3(DefaultTableModel modelTableSymbol, DefaultTableModel modelTableError) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     // Método para analizar el código
     public void analizarCodigo(String codigo) {
         // Dividir el código en líneas
@@ -103,5 +107,9 @@ public class AnalizadorLexico3 {
         for (String[] row : rowsTableSymbol) {
             modelTableSymbol.addRow(row);
         }
+    }
+
+    void procesarToken(String text, int linea) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

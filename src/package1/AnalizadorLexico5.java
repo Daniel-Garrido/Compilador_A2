@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 import javax.swing.table.DefaultTableModel;
 
-public class AnalizadorLexico4 {
+public class AnalizadorLexico5 {
 
     private final DefaultTableModel modelTableSymbol;
     private final DefaultTableModel modelTableError;
@@ -13,12 +13,11 @@ public class AnalizadorLexico4 {
     private final HashMap<String, String> valoresAsignados = new HashMap<>(); // Almacenar identificadores con tipos de datos
     private int contadorErroresSemanticos = 1;// contador para los errores 
     private String identificadorLadoIzquierdo = ""; // Variable para almacenar el identificador del lado izquierdo
-    private String variableAsignacion ="";
     private StringTokenizer st;  // Variable de instancia para ser usada en varios métodos
     private String ultimoIdentificador = "";// variable para identificar cual ha sido el ultimo valor agregado 
-    private String identificadorAsignacion = null; 
+
     //constructor
-    public AnalizadorLexico4(DefaultTableModel modelTableToken, DefaultTableModel modelTableError) {
+    public AnalizadorLexico5(DefaultTableModel modelTableToken, DefaultTableModel modelTableError) {
         this.modelTableSymbol = modelTableToken;
         this.modelTableError = modelTableError;
         rowsTableSymbol = new ArrayList<>();
@@ -45,102 +44,76 @@ public class AnalizadorLexico4 {
         agregarAlaTabla();// aregar los lexemas a la tabla 
     }
 
-//Metodo para analizar y verificar los lexemas 
-// Nueva variable auxiliar
-
-
-// Método para analizar y verificar los lexemas
 private void procesarLexema(String lexema, int linea) {
-    if (!lexemaYaAnalizado(lexema)) {
+    //System.out.println("Metodo procesar lexema");
+    if (!lexemaYaAnalizado(lexema)) {//verificar si los lexemas ya han sido registrados
         if (lexema.matches("EQ11[0-9]+")) { // Identificador
-            ultimoIdentificador = lexema;  // Se actualiza el último identificador
-            if (identificadorAsignacion == null) {
-                // Si es el primer identificador, lo tomamos como el del lado izquierdo
-                identificadorAsignacion = lexema;
-            }
-
+            identificadorLadoIzquierdo = lexema;
+            ultimoIdentificador = lexema;
             if (!valoresAsignados.containsKey(lexema)) {
                 rowsTableSymbol.add(new String[]{lexema, ""});  // Si el identificador no ha sido definido, lo agregamos con tipo vacío
             }
-        } else if (lexema.equals("=")) { // Operación de asignación
-            identificadorLadoIzquierdo = identificadorAsignacion; // Guardamos el identificador del lado izquierdo antes de la operación
-            identificadorAsignacion = null; // Reiniciamos para la siguiente operación
-
-        } else if (lexema.matches("[0-9]+")) { // Número Entero
+            
+        } else if (lexema.equals("=")) {// identificador Igualacion 
+            rowsTableSymbol.add(new String[]{lexema, ""});
+            String siguienteToken = obtenerSiguienteToken();
+            verificarCompatibilidadTipos(linea, lexema, siguienteToken, identificadorLadoIzquierdo); // Pasamos el identificador del lado izquierdo
+        } else if (lexema.matches("[0-9]+")) { //Numeros Entero
             actualizarTipoIdentificador(ultimoIdentificador, "Entero");
             valoresAsignados.put(ultimoIdentificador, "Entero");
             rowsTableSymbol.add(new String[]{lexema, "Entero"});
-
-        } else if (lexema.matches("[0-9]+\\.[0-9]+")) { // Número Real
+            
+        } else if (lexema.matches("[0-9]+\\.[0-9]+")) { //Numeros Reales
             actualizarTipoIdentificador(ultimoIdentificador, "Real");
             valoresAsignados.put(ultimoIdentificador, "Real");
             rowsTableSymbol.add(new String[]{lexema, "Real"});
-
+            
         } else if (lexema.matches("\"[A-Za-z]+\"")) { // Cadenas
             actualizarTipoIdentificador(ultimoIdentificador, "Cadena");
             valoresAsignados.put(ultimoIdentificador, "Cadena");
             rowsTableSymbol.add(new String[]{lexema, "Cadena"});
-
+            
         } else if (lexema.matches("[+\\-*/]")) { // Operadores aritméticos
-            // Antes de verificar, asegurarnos de que el identificador izquierdo es correcto
-            if (identificadorLadoIzquierdo == null) {
-                identificadorLadoIzquierdo = ultimoIdentificador;  // Asegurarse que está actualizado
-            }
-
-            // Obtener el siguiente token (operando derecho)
+            rowsTableSymbol.add(new String[]{lexema, ""});
             String siguienteToken = obtenerSiguienteToken();
-            verificarCompatibilidadTipos(linea, lexema, siguienteToken, identificadorLadoIzquierdo);
+            verificarCompatibilidadTipos(linea, lexema, siguienteToken, identificadorLadoIzquierdo); // Pasamos el identificador del lado izquierdo
         }
     }
+
 }
 
 //metodo para verificar la incompatiblidad de tipos de datos 
 private void verificarCompatibilidadTipos(int linea, String operador, String operandoDerecho, String identificadorLadoIzquierdo) {
-    System.out.println("Verificación de incompatibilidad de tipos en línea " + linea);
-
-    // Obtener el tipo del identificador del lado izquierdo (antes del '=')
-    String tipoIzquierdo = obtenerTipoDato(identificadorLadoIzquierdo);
-    System.out.println("Tipo del operando izquierdo (" + identificadorLadoIzquierdo + "): " + tipoIzquierdo);
-    
-    // Inicializar el tipo del lado derecho
+    String tipoIzquierdo = obtenerTipoDato(identificadorLadoIzquierdo); // Tipo del lado izquierdo
     String tipoDerecho = null;
 
-    // Verificar si el operando derecho es un identificador EQ11 que ya tiene un valor asignado
+    // Verificar el tipo de dato del lado derecho (operando derecho)
     if (operandoDerecho != null && operandoDerecho.matches("EQ11[0-9]+")) {
         if (!valoresAsignados.containsKey(operandoDerecho)) {
-            agregarErrorVariableIndefinida(operandoDerecho, linea);  // Variable indefinida en el lado derecho
+            agregarErrorVariableIndefinida(operandoDerecho, linea); // Si no tiene valor asignado
             return;
         } else {
-            tipoDerecho = obtenerTipoDato(operandoDerecho);
-            System.out.println("Tipo del operando derecho (" + operandoDerecho + "): " + tipoDerecho);
+            tipoDerecho = obtenerTipoDato(operandoDerecho); // Detectar el tipo de dato del lado derecho
         }
-    } else if (operandoDerecho != null && operandoDerecho.matches("[0-9]+")) {  // Caso entero
+    } else if (operandoDerecho != null && operandoDerecho.matches("[0-9]+")) { // Entero
         tipoDerecho = "Entero";
-    } else if (operandoDerecho != null && operandoDerecho.matches("[0-9]+\\.[0-9]+")) {  // Caso real
+    } else if (operandoDerecho != null && operandoDerecho.matches("[0-9]+\\.[0-9]+")) { // Real
         tipoDerecho = "Real";
-    } else if (operandoDerecho != null && operandoDerecho.matches("\"[A-Za-z]+\"")) {  // Caso cadena
+    } else if (operandoDerecho != null && operandoDerecho.matches("\"[A-Za-z]+\"")) { // Cadena
         tipoDerecho = "Cadena";
     }
 
-    // Si uno de los tipos es nulo, no podemos continuar con la verificación
+    // Si no hay tipos de datos para comparar, no podemos verificar
     if (tipoIzquierdo == null || tipoDerecho == null) {
-        System.out.println("No se puede verificar la compatibilidad. Alguno de los tipos es nulo.");
-        return;
+        return; // No verificamos la compatibilidad si falta algún tipo
     }
 
-    // Verificar la compatibilidad de tipos
+    // Verificar incompatibilidad de tipos
     if (!tipoIzquierdo.equals(tipoDerecho)) {
-        System.out.println("Incompatibilidad de tipos detectada en línea " + linea);
-        System.out.println("Operando izquierdo: " + identificadorLadoIzquierdo + " (" + tipoIzquierdo + ")");
-        System.out.println("Operando derecho: " + operandoDerecho + " (" + tipoDerecho + ")");
-
-        // Registrar el error de incompatibilidad de tipos
-        agregarErrorSemantico(operandoDerecho, linea, "Incompatibilidad de tipos en asignación: " + identificadorLadoIzquierdo + " es de tipo " + tipoIzquierdo);
-    } else {
-        System.out.println("Compatibilidad de tipos correcta en línea " + linea);
+        // Agregamos el error con el identificador del lado izquierdo en la descripción
+        agregarErrorSemantico(operandoDerecho, linea, "Incompatibilidad de tipos: " + identificadorLadoIzquierdo);
     }
 }
-
 
     // Método para obtener el operando derecho tras un operador aritmético
     private String obtenerSiguienteToken() {
@@ -171,25 +144,28 @@ private void verificarCompatibilidadTipos(int linea, String operador, String ope
     }
 
     private void agregarErrorVariableIndefinida(String lexema, int linea) {
-        agregarErrorSemantico(lexema, linea, "Variable indefinida");
+        agregarErrorSemantico(lexema, linea, "Variable indefinida"+identificadorLadoIzquierdo);
     }
 
      //metodo para  Evitar errores duplicados en la tabla de errores
     private void agregarErrorSemantico(String lexema, int linea, String descripcion) {
-    String token = "ErrorS" + (contadorErroresSemanticos++);  // Genera un identificador único para cada error
-    rowsTableError.add(new String[]{token, lexema, String.valueOf(linea), descripcion});
+    if (!valorYaRegistrado(lexema)) {
+        rowsTableError.add(new String[]{"ErrorS" + contadorErroresSemanticos, lexema, Integer.toString(linea), descripcion});
+        contadorErroresSemanticos++;
+    }
 }
 
 
     //metoo para verificar si un error ya ha sido registrado 
-    private boolean valorYaRegistrado(String lexema) {
-        for (String[] row : rowsTableError) {
-            if (row[1].equals(lexema)) {
-                return true;
-            }
+   private boolean valorYaRegistrado(String lexema) {
+    for (String[] row : rowsTableError) {
+        if (row[1].equals(lexema)) {
+            return true;
         }
-        return false;
     }
+    return false;
+}
+
 
     /*metodo para verificar que los lexemaas han sido revisados*/
     private boolean lexemaYaAnalizado(String lexema) {
@@ -222,3 +198,4 @@ private void verificarCompatibilidadTipos(int linea, String operador, String ope
         }
     }
 }
+

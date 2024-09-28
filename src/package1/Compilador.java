@@ -6,9 +6,37 @@
   -Angel ernesto Gonzalez tun
   -Enrique Absalon Huchim Cano 
  */
+
+/*
+EQ112 = 3.5;
+EQ1110 = 5;
+EQ115 = 11;
+EQ117 = 10;
+EQ1122 = 59.9;
+EQ119 = 90.5;
+EQ1130 = "HOLA";
+EQ114 = "Daniel";
+EQ115 = 888 - EQ1130;
+EQ1110 = EQ112 + 6 * EQ118887;
+EQ111 = 600 / EQ11999;
+
+
+EQ112 = 3.5;
+EQ1110 = 5;
+EQ115 = 11;
+EQ117 = 10;
+EQ1122 = 59.9;
+EQ119 = 90.4;
+EQ1130 = "HOLA";
+EQ114 = "Daniel";
+EQ115 = 888 - EQ1130 ;
+EQ1110 = EQ112 + 10 * EQ118887;
+EQ111 = EQ112  / EQ11999;
+*/
 package package1;
 
 //librerias a usar
+import java.awt.Color;
 import package1.AnalizadorLexico;
 import package1.ModuloAnalizadorLexico;
 import package1.AnalizadorLexico2;
@@ -36,6 +64,9 @@ public class Compilador extends javax.swing.JFrame {
         //this.setExtendedState(this.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);//centrar la interfaz
         this.setTitle("Proyecto compilador automatas 2 Equipo 11 Final");
+       
+        // diseño al panel 
+        jPanel1.setBackground(new Color(51,51,50));
         
         //objetos de nuestras tablas de errores y de simbolos
         JTable tablaSimbolos = new JTable();
@@ -76,21 +107,29 @@ public class Compilador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ingresar Codigo");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tabla de símbolos");
 
+        jButton1.setBackground(new java.awt.Color(30, 169, 5));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Analizar");
+        jButton1.setBorderPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Cerrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,9 +137,13 @@ public class Compilador extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tabla de errores");
 
+        jButton3.setBackground(new java.awt.Color(159, 34, 7));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Eliminar");
+        jButton3.setToolTipText("");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -119,13 +162,13 @@ public class Compilador extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1)
                                 .addGap(41, 41, 41)
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButton2)))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -146,23 +189,24 @@ public class Compilador extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(29, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton3)
+                            .addComponent(jButton2))
+                        .addGap(63, 63, 63))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,18 +244,32 @@ public class Compilador extends javax.swing.JFrame {
 //        analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
 //        JOptionPane.showMessageDialog(null, "Modulo analizador lexico.");
 //        
-       // AnalizadorLexico2 analizadorLexico = new AnalizadorLexico2(modelTableSymbol, modelTableError);
-       // analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
-       // JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
-//         AnalizadorLexico3 analizadorLexico = new AnalizadorLexico3(modelTableSymbol, modelTableError);
+//        AnalizadorLexico2 analizadorLexico = new AnalizadorLexico2(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
+//        JOptionPane.showMessageDialog(null, "Analizador Lexico 2.");
+//        
+//        AnalizadorLexico3 analizadorLexico = new AnalizadorLexico3(modelTableSymbol, modelTableError);
 //        analizadorLexico.procesarToken(jTextArea1.getText(), linea);
 //        JOptionPane.showMessageDialog(null, "AnalizadorLexico3");
 
 
         AnalizadorLexico4 analizadorLexico = new AnalizadorLexico4(modelTableSymbol, modelTableError);
         analizadorLexico.analizarExpresiones(jTextArea1.getText());
-        JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
-       
+        JOptionPane.showMessageDialog(null, "Analizador Lexico 4.");
+
+//        AnalizadorLexico5 analizadorLexico = new AnalizadorLexico5(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpresiones(jTextArea1.getText());
+//        JOptionPane.showMessageDialog(null, "Analizador Lexico 5.");
+
+//        AnalizadorLexico6 analizadorLexico = new AnalizadorLexico6(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpresiones(jTextArea1.getText());
+//        JOptionPane.showMessageDialog(null, "Analizador Lexico 6.");
+
+//        AnalizadorLexico7 analizadorLexico = new AnalizadorLexico7(modelTableSymbol, modelTableError);
+//        analizadorLexico.analizarExpresiones(jTextArea1.getText());
+//        JOptionPane.showMessageDialog(null, "Analizador Lexico 6.");
+
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //btn cerrar el programa 

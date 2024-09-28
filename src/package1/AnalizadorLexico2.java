@@ -142,46 +142,45 @@ public class AnalizadorLexico2 {
             }
         }
     }
-
-    /* Método para verificar los identificadores involucrados en una operación */
     private void verificarIdentificadoresEnOperacion(int linea) {
-        // Recorremos los tokens hacia atrás para obtener los dos últimos identificadores
-        String identificador1 = null;
-        String identificador2 = null;
+    // Recorremos los tokens hacia atrás para obtener los dos últimos identificadores
+    String identificador1 = null;  // Identificador del lado izquierdo (EQ111)
+    String identificador2 = null;  // Identificador del lado derecho (EQ112)
+    boolean esOperacionAritmetica = true;
 
-        for (int i = rowsTableToken.size() - 1; i >= 0; i--) {
-            String[] token = rowsTableToken.get(i);
-            String lexema = token[0];
+    for (int i = rowsTableToken.size() - 1; i >= 0; i--) {
+        String[] token = rowsTableToken.get(i);
+        String lexema = token[0];
 
-            if (lexema.matches("EQ11[0-9]+")) {  // Si es un identificador
-                if (identificador2 == null) {
-                    identificador2 = lexema;  // El segundo operando
-                } else {
-                    identificador1 = lexema;  // El primer operando
-                    break;  // Ya tenemos ambos identificadores
-                }
-            }
-        }
-
-        // Verificar si ambos identificadores tienen valores asignados
-        if (identificador1 != null && !valoresAsignados.containsKey(identificador1)) {
-            // Si el identificador1 no tiene un valor asignado, es indefinido
-            if (!errorVariableIndefinidaAgregado(identificador1)) {
-              
-                System.out.println("Variable indefinida: " + identificador1 + " en la línea: " + linea);
-                agregarErrorVariableIndefinida(identificador1, linea);
-            }
-        }
-
-        if (identificador2 != null && !valoresAsignados.containsKey(identificador2)) {
-            // Si el identificador2 no tiene un valor asignado, es indefinido
-            if (!errorVariableIndefinidaAgregado(identificador2)) {
-                
-                System.out.println("Variable indefinida: " + identificador2 + " en la línea: " + linea);
-                agregarErrorVariableIndefinida(identificador2, linea);
+        // Verificamos si el lexema es un identificador
+        if (lexema.matches("EQ11[0-9]+")) {  // Si es un identificador
+            if (identificador2 == null) {
+                identificador2 = lexema;  // El segundo operando (EQ112, lado derecho)
+            } else {
+                identificador1 = lexema;  // El primer operando (EQ111, lado izquierdo)
+                break;  // Ya tenemos ambos identificadores
             }
         }
     }
+
+    // Verificamos si el identificador2 (lado derecho) tiene un valor asignado
+    if (identificador2 != null && !valoresAsignados.containsKey(identificador2)) {
+        // Si el identificador2 no tiene un valor asignado, es indefinido
+        if (!errorVariableIndefinidaAgregado(identificador2)) {
+            System.out.println("Variable indefinida: identificador 2 (lado derecho) :" + identificador2 + " en la línea: " + linea);
+            agregarErrorVariableIndefinida(identificador2, linea);
+        }
+    }
+    if (identificador1 != null && !valoresAsignados.containsKey(identificador1) ){
+        if(!errorVariableIndefinidaAgregado(identificador1)){
+              System.out.println("Variable indefinida: identificador 1 (lado izquierso) :" + identificador1 + " en la línea: " + linea);
+            agregarErrorVariableIndefinida(identificador1, linea);
+        }
+    }
+
+  
+}
+
 
     private void actualizarTipoIdentificador(String identificador, String tipoDato) {
         // Recorre la tabla de tokens para encontrar el identificador y actualizar su tipo de dato
@@ -195,8 +194,7 @@ public class AnalizadorLexico2 {
         }
     }
     
-    private void agregarErrorVariableIndefinida(String lexema, int linea) {
-        
+    private void agregarErrorVariableIndefinida(String lexema, int linea) { 
         rowsTableError.add(new String[]{"ErrorSEM" + contadorErroresSemanticos, lexema, Integer.toString(linea), "Variable indefinida"});
         contadorErroresSemanticos++;
     }
