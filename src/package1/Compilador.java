@@ -7,40 +7,11 @@
   -Enrique Absalon Huchim Cano 
  */
 
-/*
-EQ112 = 3.5;
-EQ1110 = 5;
-EQ115 = 11;
-EQ117 = 10;
-EQ1122 = 59.9;
-EQ119 = 90.5;
-EQ1130 = "HOLA";
-EQ114 = "Daniel";
-EQ115 = 888 - EQ1130;
-EQ1110 = EQ112 + 6 * EQ118887;
-EQ111 = 600 / EQ11999;
-
-
-EQ112 = 3.5;
-EQ1110 = 5;
-EQ115 = 11;
-EQ117 = 10;
-EQ1122 = 59.9;
-EQ119 = 90.4;
-EQ1130 = "HOLA";
-EQ114 = "Daniel";
-EQ115 = 888 - EQ1130 ;
-EQ1110 = EQ112 + 10 * EQ118887;
-EQ111 = EQ112  / EQ11999;
-*/
 package package1;
 
 //librerias a usar
 import java.awt.Color;
-import package1.AnalizadorLexico;
-import package1.ModuloAnalizadorLexico;
-import package1.AnalizadorLexico2;
-import package1.AnalizadorLexico3;
+import package1.AnalizadorLexico4;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -157,31 +128,32 @@ public class Compilador extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1)
-                                .addGap(41, 41, 41)
+                                .addGap(12, 12, 12)
                                 .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel1)))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel2)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(16, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(186, 186, 186))))
+                        .addGap(228, 228, 228)
+                        .addComponent(jLabel3)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,8 +166,8 @@ public class Compilador extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(29, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,9 +185,7 @@ public class Compilador extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,61 +203,34 @@ public class Compilador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo vacio.\nIngrese un codigo \npara analizar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
         int linea = 0;
         
-//        AnalizadorLexico analizadorLexico = new AnalizadorLexico(modelTableSymbol, modelTableError);
-//        analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
-//        JOptionPane.showMessageDialog(null, "Se han exportado los archivos.");
-//        
-//        ModuloAnalizadorLexico analizadorLexico = new ModuloAnalizadorLexico(modelTableSymbol, modelTableError);
-//        analizadorLexico.analizarExpresiones(jTextArea1.getText(), linea);
-//        JOptionPane.showMessageDialog(null, "Modulo analizador lexico.");
-//        
+
 //        AnalizadorLexico2 analizadorLexico = new AnalizadorLexico2(modelTableSymbol, modelTableError);
 //        analizadorLexico.analizarExpreciones(jTextArea1.getText(), linea);
 //        JOptionPane.showMessageDialog(null, "Analizador Lexico 2.");
-//        
-//        AnalizadorLexico3 analizadorLexico = new AnalizadorLexico3(modelTableSymbol, modelTableError);
-//        analizadorLexico.procesarToken(jTextArea1.getText(), linea);
-//        JOptionPane.showMessageDialog(null, "AnalizadorLexico3");
-
 
         AnalizadorLexico4 analizadorLexico = new AnalizadorLexico4(modelTableSymbol, modelTableError);
         analizadorLexico.analizarExpresiones(jTextArea1.getText());
-        JOptionPane.showMessageDialog(null, "Analizador Lexico 4.");
-
-//        AnalizadorLexico5 analizadorLexico = new AnalizadorLexico5(modelTableSymbol, modelTableError);
+        JOptionPane.showMessageDialog(null, "AnalizadorLexico4");  
+//        
+//            AnalizadorLexico5 analizadorLexico = new AnalizadorLexico5(modelTableSymbol, modelTableError);
 //        analizadorLexico.analizarExpresiones(jTextArea1.getText());
-//        JOptionPane.showMessageDialog(null, "Analizador Lexico 5.");
-
-//        AnalizadorLexico6 analizadorLexico = new AnalizadorLexico6(modelTableSymbol, modelTableError);
-//        analizadorLexico.analizarExpresiones(jTextArea1.getText());
-//        JOptionPane.showMessageDialog(null, "Analizador Lexico 6.");
-
-//        AnalizadorLexico7 analizadorLexico = new AnalizadorLexico7(modelTableSymbol, modelTableError);
-//        analizadorLexico.analizarExpresiones(jTextArea1.getText());
-//        JOptionPane.showMessageDialog(null, "Analizador Lexico 6.");
-
-      
+//        JOptionPane.showMessageDialog(null, "AnalizadorLexico 5");  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //btn cerrar el programa 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    
-        int confirmarOpcion = JOptionPane.showConfirmDialog(null, "salir del programa?"," ", JOptionPane.YES_NO_OPTION);
-        
+
+        int confirmarOpcion = JOptionPane.showConfirmDialog(null, "Desea salir del programa?", " ", JOptionPane.YES_NO_OPTION);
+
         //verificamos la respuesta 
-        if(confirmarOpcion == JOptionPane.YES_OPTION){
+        if (confirmarOpcion == JOptionPane.YES_OPTION) {
             //cerrar la interfaz al dar click
-        System.exit(0);
-        }
-        else 
-            if(confirmarOpcion == JOptionPane.NO_OPTION){
+            System.exit(0);
+        } else if (confirmarOpcion == JOptionPane.NO_OPTION) {
             // se mantiene sin hacer nada
         }
-      
-      
     }//GEN-LAST:event_jButton2ActionPerformed
 
     //btn limpiar el programa
@@ -299,8 +242,7 @@ public class Compilador extends javax.swing.JFrame {
            modelTableError.setRowCount(0); // limpia los datos de la tabla de errores
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    
+  
     //metodo main 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
