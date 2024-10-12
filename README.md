@@ -34,32 +34,6 @@ La clase `Compilador` es la encargada de la interfaz gráfica de usuario del com
 - `ArrayList<String[]> rowsTableSymbol`: Lista que almacena los lexemas y tipos de datos antes de mostrarlos en la tabla de símbolos.
 - `ArrayList<String[]> rowsTableError`: Lista que almacena los errores antes de mostrarlos en la tabla de errores.
 
-## Métodos
-
-### `Compilador()`
-
-Este es el **constructor** de la clase que inicializa los componentes gráficos de la interfaz. Configura la ventana, establece los modelos de las tablas y ajusta el estilo visual para que la interfaz sea amigable.
-
-### `void jButton1ActionPerformed(java.awt.event.ActionEvent evt)`
-
-Este método se activa cuando el usuario hace clic en el botón "Analizar". Verifica si el área de texto contiene código, y si es así, inicia el proceso de análisis léxico del código fuente ingresado.
-
-### `void jButton2ActionPerformed(java.awt.event.ActionEvent evt)`
-
-Este método se activa cuando el usuario hace clic en el botón "Cerrar". Muestra un cuadro de diálogo para confirmar si el usuario desea salir del programa. Si el usuario confirma, la aplicación se cierra.
-
-### `void jButton3ActionPerformed(java.awt.event.ActionEvent evt)`
-
-Este método se activa cuando el usuario hace clic en el botón "Eliminar". Limpia el área de texto, así como las tablas de símbolos y de errores.
-
-### `void jButton4ActionPerformed(java.awt.event.ActionEvent evt)`
-
-Este método activa el **modo oscuro**. Cambia el fondo de la interfaz y el color de los textos a colores apropiados para un modo oscuro.
-
-### `void jButton5ActionPerformed(java.awt.event.ActionEvent evt)`
-
-Este método activa el **modo claro**. Cambia el fondo de la interfaz y el color de los textos a colores claros.
-
 ## Estructura de la interfaz
 
 - **Área de texto**: Donde el usuario ingresa el código fuente.
@@ -88,44 +62,6 @@ La clase `AnalizadorLexico` es la encargada de realizar el **análisis léxico**
 - `identificadoresTipo`: Mapa que asocia identificadores con sus tipos de datos.
 - `variableAsignacion`: Almacena la variable del lado izquierdo de una asignación.
 - `contadorErrorSemantico`: Contador para llevar el control de los errores semánticos detectados.
-
-## Métodos
-
-### `AnalizadorLexico(DefaultTableModel modelTableSymbol, DefaultTableModel modelTableError)`
-
-Constructor de la clase que inicializa los modelos de las tablas de símbolos y errores, y las estructuras de datos necesarias para realizar el análisis léxico.
-
-### `void analizarExpresiones(String expresiones, int linea)`
-
-Este método procesa el código fuente línea por línea, descomponiéndolo en tokens y enviándolos al método `analizarLexema` para su clasificación.
-
-### `void analizarLexema(String lexema, int linea, StringTokenizer st)`
-
-Este método clasifica cada token según su tipo. Dependiendo del lexema, se verifica si es un **identificador**, **número entero**, **número real**, **cadena**, **operador aritmético**, **operador de asignación** o **separador**.
-
-### `void addTable()`
-
-Este método agrega el contenido de `rowsTableSymbol` y `rowsTableError` a las tablas de símbolos y errores. Se limpia la tabla antes de agregar los nuevos datos.
-
-### `void clearTable()`
-
-Limpia el contenido de las tablas de símbolos y errores.
-
-### `boolean lexemaYaAnalizado(String lexema)`
-
-Verifica si un lexema ya ha sido procesado y agregado a la tabla de símbolos para evitar duplicados.
-
-### `String determinarTipoPorValor(String valor)`
-
-Determina el tipo de dato de un valor. Puede ser **Entero**, **Real** o **Cadena** dependiendo del formato del valor.
-
-### `boolean tiposCompatibles(String tipo1, String tipo2)`
-
-Determina si dos tipos de datos son compatibles para realizar operaciones aritméticas. Los **enteros** y **reales** son compatibles entre sí.
-
-### `String obtenerTipoOperando(String operando)`
-
-Obtiene el tipo de dato de un operando, ya sea verificando en los **identificadores** previamente declarados o determinando su tipo a partir del valor literal.
 
 ## Errores detectados
 
