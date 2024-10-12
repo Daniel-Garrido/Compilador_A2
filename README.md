@@ -1,5 +1,22 @@
-# Clase `Compilador`
+# Proyecto Autómatas 2 
+Este proyecto es parte de la materia de lenguajes y autómatas 2 que tiene la finalidad del desarrollo de un compilador para detectar el analisis léxico y semantico de acuerdo a nuestras reglas establecidas. Actualmente su función es el de analizar datos que se le ingresen por medio de una interfaz de usuario y cumpliendo con las reglas establecidas, posteriormente pasa al llenado de la tabla de simbolos y la tabla de errores.
 
+## Uso
+
+1. **Ingresar código**: Escribe el código que deseas analizar en el área de texto.
+2. **Analizar**: Haz clic en el botón "Analizar" para procesar el código. Los resultados aparecerán en las tablas de símbolos y errores.
+3. **Limpiar datos**: Puedes limpiar el contenido del área de texto y las tablas haciendo clic en el botón "Eliminar".
+4. **Cambiar de modo**: Cambia entre los modos claro y oscuro con los botones "Modo Dark" y "Modo White".
+5. **Cerrar la aplicación**: Haz clic en el botón "Cerrar" para salir de la aplicación.
+
+## Ejemplo de uso
+
+## Requisitos
+- **Java 15.0.2** o superior.
+- Requiere las bibliotecas de **Swing** para la interfaz gráfica.
+
+
+# 1. Clase `Compilador`
 La clase `Compilador` es la encargada de la interfaz gráfica de usuario del compilador desarrollado en Java. Permite al usuario ingresar código fuente, analizarlo y visualizar los resultados en una **tabla de símbolos** y una **tabla de errores**.
 
 ## Características
@@ -43,14 +60,6 @@ Este método activa el **modo oscuro**. Cambia el fondo de la interfaz y el colo
 
 Este método activa el **modo claro**. Cambia el fondo de la interfaz y el color de los textos a colores claros.
 
-## Uso
-
-1. **Ingresar código**: Escribe el código que deseas analizar en el área de texto.
-2. **Analizar**: Haz clic en el botón "Analizar" para procesar el código. Los resultados aparecerán en las tablas de símbolos y errores.
-3. **Limpiar datos**: Puedes limpiar el contenido del área de texto y las tablas haciendo clic en el botón "Eliminar".
-4. **Cambiar de modo**: Cambia entre los modos claro y oscuro con los botones "Modo Dark" y "Modo White".
-5. **Cerrar la aplicación**: Haz clic en el botón "Cerrar" para salir de la aplicación.
-
 ## Estructura de la interfaz
 
 - **Área de texto**: Donde el usuario ingresa el código fuente.
@@ -58,36 +67,15 @@ Este método activa el **modo claro**. Cambia el fondo de la interfaz y el color
 - **Tabla de errores**: Muestra los errores léxicos y semánticos encontrados durante el análisis.
 - **Botones**: Botones para analizar, limpiar, cambiar de modo (oscuro/claro) y cerrar la aplicación.
 
-## Ejemplo de uso
 
-
-
-
-## Requisitos
-
-- **Java 15.0.2** o superior.
-- Requiere las bibliotecas de **Swing** para la interfaz gráfica.
-
-## Contribuciones
-
-Si deseas contribuir al proyecto, sigue estos pasos:
-
-1. Haz un **fork** del repositorio.
-
-2. Crea una nueva rama para tu funcionalidad:
-
-   
-   `git checkout -b mi-nueva-funcionalidad`
-
-
-# Clase `AnalizadorLexico`
+# 2. Clase `AnalizadorLexico`
 
 La clase `AnalizadorLexico` es la encargada de realizar el **análisis léxico** del código fuente en el proyecto del compilador. Esta clase descompone el código en tokens y los clasifica según su tipo, además de detectar y registrar cualquier error léxico o semántico.
 
 ## Responsabilidades
 
 - **Análisis léxico**: Descomposición del código en tokens y clasificación de cada uno.
-- **Relleno de la tabla de símbolos**: Guarda lexemas válidos y sus tipos de datos.
+- **Llenado de la tabla de símbolos**: Guarda lexemas válidos y sus tipos de datos.
 - **Detección de errores**: Identificación y registro de errores léxicos y semánticos en la tabla de errores.
 - **Gestión de tablas**: Rellena y limpia tanto la tabla de símbolos como la tabla de errores.
 
@@ -141,16 +129,6 @@ Obtiene el tipo de dato de un operando, ya sea verificando en los **identificado
 
 ## Errores detectados
 
-- **Errores léxicos**: Se registran cuando un lexema no cumple con las reglas sintácticas, como un identificador mal formado o una cadena incompleta.
 - **Errores semánticos**: Se producen cuando se intenta realizar operaciones con tipos de datos incompatibles o cuando se usa una variable que no ha sido definida.
 
-## Ejemplo de uso
-
-Supón que se analiza el siguiente código:
-
-```java
-EQ111 = 10;
-EQ112 = 5.5;
-EQ114 = "Hola";
-EQ115 = EQ111 + EQ112;
 
