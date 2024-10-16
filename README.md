@@ -100,7 +100,7 @@ La clase `AnalizadorLexico` es la encargada de realizar el **análisis léxico**
 - **Detección de errores**: Identificación y registro de errores léxicos y semánticos en la tabla de errores.
 - **Gestión de tablas**: Rellena y limpia tanto la tabla de símbolos como la tabla de errores.
 
-## Atributos![Uploading WhatsApp Image 2024-10-15 at 10.31.52 PM.jpeg…]()
+## Atributos
 
 
 - `modelTableSymbol`: Modelo de la tabla que contiene los **lexemas** y sus **tipos de datos**.
