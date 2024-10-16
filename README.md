@@ -56,6 +56,7 @@ EQ1110 = EQ1112 * 50; <br>
 
 ## Interfaz
 
+![WhatsApp Image 2024-10-15 at 10 31 52 PM](https://github.com/user-attachments/assets/6a0a783d-2f13-473e-806c-c3ed8cee283b)
 
 ## Requisitos
 - **Java 15.0.2** o superior.
