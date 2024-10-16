@@ -54,6 +54,9 @@ EQ116 = "mundo" * 20.5; <br>
 EQ119 = 11 / EQ1199 + 5.0; <br>
 EQ1110 = EQ1112 * 50; <br>
 
+## Interfaz
+
+
 ## Requisitos
 - **Java 15.0.2** o superior.
 - Requiere las bibliotecas de **Swing** para la interfaz gráfica.
@@ -96,7 +99,8 @@ La clase `AnalizadorLexico` es la encargada de realizar el **análisis léxico**
 - **Detección de errores**: Identificación y registro de errores léxicos y semánticos en la tabla de errores.
 - **Gestión de tablas**: Rellena y limpia tanto la tabla de símbolos como la tabla de errores.
 
-## Atributos
+## Atributos![Uploading WhatsApp Image 2024-10-15 at 10.31.52 PM.jpeg…]()
+
 
 - `modelTableSymbol`: Modelo de la tabla que contiene los **lexemas** y sus **tipos de datos**.
 - `modelTableError`: Modelo de la tabla que contiene los **tokens**, **lexemas**, **líneas** y **descripción del error**.
