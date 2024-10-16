@@ -1,6 +1,26 @@
 # Proyecto Autómatas 2 
 Este proyecto es parte de la materia de lenguajes y autómatas 2 que tiene la finalidad del desarrollo de un compilador para detectar el analisis léxico y semantico de acuerdo a nuestras reglas establecidas. Actualmente su función es el de analizar datos que se le ingresen por medio de una interfaz de usuario y cumpliendo con las reglas establecidas, posteriormente pasa al llenado de la tabla de simbolos y la tabla de errores.
 
+## Instrucciones 
+
+<p>
+  Estas reglas determinan cuándo un identificador o un literal debe agregarse a la tabla de símbolos.
+</p>
+
+#### a) **Identificadores válidos**
+- Un identificador válido **debe comenzar con** `EQ11`, seguido de un número del 0 al 9. 
+  - Ejemplo: `EQ113`, `EQ110`, etc.
+- Si el identificador cumple con esta regla, se agrega a la tabla de símbolos con su **lexema** y su **tipo de dato**.
+
+#### b) **Tipos de datos permitidos**
+Los tipos de datos válidos son:
+- **Entero**: Una secuencia de dígitos (0-9).
+  - Ejemplo: `500`, `123`.
+- **Real**: Un número con un punto decimal, con al menos un dígito antes y después del punto.
+  - Ejemplo: `123.45`, `5.5`.
+- **Cadena**: Texto entre comillas dobles, compuesto por letras mayúsculas y minúsculas (A-Z, a-z).
+  - Ejemplo: `"Hola"`, `"Mundo"`.
+
 ## Uso
 
 1. **Ingresar código**: Escribe el código que deseas analizar en el área de texto.
@@ -23,6 +43,7 @@ EQ117 = 7.5 + 50;<br>
 EQ118 = EQ114 + EQ112;<br>
 
 - **Código de ejemplo con errores**
+
 EQ117 = EQ118; <br>
 EQ110 = 100; <br>
 EQ112 = 5.0; <br>
