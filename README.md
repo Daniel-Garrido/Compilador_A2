@@ -11,6 +11,28 @@ Este proyecto es parte de la materia de lenguajes y autómatas 2 que tiene la fi
 
 ## Ejemplo de uso
 
+- **Código de ejemplo sin errores**
+
+EQ110 = 100; <br>
+EQ112 = 50; <br>
+EQ113 = 4.4;<br>
+EQ114 = 5.5;<br>
+EQ115 = "HOLA";<br>
+EQ116 = "mundo";<br>
+EQ117 = 7.5 + 50;<br>
+EQ118 = EQ114 + EQ112;<br>
+
+- **Código de ejemplo con errores**
+EQ117 = EQ118; <br>
+EQ110 = 100; <br>
+EQ112 = 5.0; <br>
+EQ113 = "Hola" - 5.0; <br>
+EQ114 = 10.5 + 10; <br>
+EQ115 = EQ110 / EQ113; <br>
+EQ116 = "mundo" * 20.5; <br>
+EQ119 = 11 / EQ1199 + 5.0; <br>
+EQ1110 = EQ1112 * 50; <br>
+
 ## Requisitos
 - **Java 15.0.2** o superior.
 - Requiere las bibliotecas de **Swing** para la interfaz gráfica.
