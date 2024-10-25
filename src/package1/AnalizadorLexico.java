@@ -66,8 +66,6 @@ public class AnalizadorLexico {
             String NumerosReales = "[0-9]+\\.[0-9]+";
             String Cadenas = "\"[^\"]*\"";
             String OperadoresAritmeticos = "[+\\-*/%]";
-            String OperadoresLogicosYBooleanos = ("&&|(\\|\\|)");
-            String Funcion;
             String OperadoresRelacionales = ("<]|<=|>|>=|==|!=");
             String Asignacion = "=";
             String Separadores = "[(){},;]";
@@ -160,11 +158,11 @@ public class AnalizadorLexico {
                 if (st.hasMoreTokens()) {
 
                     String operando1 = ladoIzquierdo;
-                    System.out.println(" operando 1:" + operando1);
+                    System.out.println("operando 1:" + operando1);
                     String tipoOperando1 = obtenerTipoOperando(operando1);
 
                     String operando2 = st.nextToken();
-                    System.out.println(" operando 2:" + operando2);
+                    System.out.println("operando 2:" + operando2);
                     String tipoOperando2 = obtenerTipoOperando(operando2);
 
                     if (tipoOperando1 == null || tipoOperando2 == null) {
@@ -196,6 +194,13 @@ public class AnalizadorLexico {
             pattern = Pattern.compile(Separadores);
             if (pattern.matcher(lexema).matches()) {
                 rowsTableSymbol.add(new String[]{lexema, ""});
+                return;
+            }
+            
+            //verifica si es una operacion relacional
+            pattern = Pattern.compile(OperadoresRelacionales);
+            if(pattern.matcher(lexema).matches()){
+                rowsTableSymbol.add(new String [] {lexema, ""});
                 return;
             }
         }
