@@ -1,1 +1,27 @@
-linea ,Dato Objeto,Dato Fuente,Operador
+linea,Dato Objeto,Dato Fuente,Operador
+1,T1, 34,=
+2,EQ112 ,T1,=
+3,T1,EQ111,=
+4,T1,1,=
+5,T1,EQ111,=
+6,T1,10,>
+7,TR1,TRUE,9
+8,TR1,FALSE,27
+9,T1,EQ111,=
+10,T1,15,<
+11,TR1,TRUE,13
+12,TR1,FALSE,27
+13,T1,12,=
+14,T1,10,*
+15,T1,EQ112,=
+16,T2,T1,-
+17,EQ117,T2,=
+18,T1,EQ111 ,=
+19,T1, 1,+
+20,EQ111 ,T1,=
+21,T1,12,=
+22,T1,10,/
+23,T1,EQ112,=
+24,T2,T1,+
+25,EQ117,T2,=
+26,,,JR
