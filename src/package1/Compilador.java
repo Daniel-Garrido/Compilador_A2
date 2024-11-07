@@ -4,7 +4,6 @@
  Integrantes 
   -Daniel arcangel Garrido hoil 
   -Angel ernesto Gonzalez tun
-  -Enrique Absalon Huchim Cano 
  */
 
 package package1;
@@ -165,7 +164,9 @@ public class Compilador extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Ingresar Codigo");
 
+        jButton6.setBackground(new java.awt.Color(245, 168, 4));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Triplo");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

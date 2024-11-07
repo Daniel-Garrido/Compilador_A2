@@ -1,5 +1,4 @@
 package package1;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,7 @@ public class Triplos {
         String simboloActual = "";
 
         int NUMERO = 1, numeroLinea = 1, primerTrue = 0, finFor = 0, fin = 0, second = 0;
+        int lineaCondicionFor = 0;
         String[] partes2 = {};
 
         // --------- Lógica del programa ------------
@@ -48,15 +48,16 @@ public class Triplos {
                     if (inicializacion.contains("=")) {
                         String[] partesInicializacion = inicializacion.split("=");
 
-                        tablaTriplo += numeroLinea + "," + T + NUMERO + "," + partesInicializacion[0].trim() + "," + "=\n";
+                        tablaTriplo += numeroLinea + "," + T + NUMERO + "," + partesInicializacion[1].trim() + "," + "=\n";
                         numeroLinea++;
 
-                        tablaTriplo += numeroLinea + "," + T + NUMERO + "," + partesInicializacion[1].trim() + "," + "=\n";
+                        tablaTriplo += numeroLinea + "," + partesInicializacion[0].trim()  + ","+ T + NUMERO + "," + "=\n";
                         numeroLinea++;
                     }
 
                     // 2.- Procesar la condición
                     String condicion = partesDelFor[1].trim();
+                    lineaCondicionFor = numeroLinea;
                     String[] relacion = {};
                     System.out.println("condicion :" + condicion);
 
@@ -136,6 +137,7 @@ public class Triplos {
                             }
                         }
 
+                        //------Procesamos el intervalo
                         intervalo = partesDelFor[2].trim();
                         System.out.println("intervalo " + intervalo);
 
@@ -232,13 +234,14 @@ public class Triplos {
 
                                 } else if ((operador2.equals("*") || operador2.equals("/")) && (operador1.equals("+") || operador1.equals("-"))) {
                                     System.out.println("bloque 2");
+                                    
                                     tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte2 + "," + "=\n";
                                     numeroLinea++;
 
                                     tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte3 + "," + operador2 + "\n";
                                     numeroLinea++;
 
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte1 + "," + "=\n";
+                                    tablaTriplo += numeroLinea + "," + T + (NUMERO+1) + "," + parte1 + "," + "=\n";
                                     numeroLinea++;
 
                                     tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + T + NUMERO + "," + operador1 + "\n";
@@ -282,12 +285,14 @@ public class Triplos {
 
                                     tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + T + NUMERO + "," + "=\n";
                                     numeroLinea++;
+                                    break;
                                 }
                             }
                         }
                     }
                 }
-
+                
+                //------ Triplo para las variables de asignacion --------
                 linea = linea.trim();
                 if (!linea.contains("+") && !linea.contains("-") && !linea.contains("/") && !linea.contains("%") && !linea.contains("*")) {
                     String[] par = linea.replace(";", "").split("=");
@@ -299,33 +304,46 @@ public class Triplos {
                     numeroLinea++;
                 }
 
-                String incremento = intervalo;
-                if (incremento.contains("=")) {
-                    String[] partesIntervalo = intervalo.split("=");
-                    intervalo = partesIntervalo[1].trim();
+                
+                
+            } 
+            //----buscar el fin del ciclo for---------- 
+            else if (linea.contains("}")) {
+                
+                 //------Procesamos el intervalo al final de cada iteración antes del cierre `}`
+                if (!intervalo.isEmpty()) {
+                    
+                    if (intervalo.contains("=")) {
+                        String[] partesIntervalo = intervalo.split("=");
+                        String variable = partesIntervalo[0].trim();
+                        expresion = partesIntervalo[1].trim();
 
-                    for (String OPA : operadoresAritmeticos) {
-                        if (intervalo.contains(OPA)) {
-                            String[] operandoPartes = intervalo.split("\\" + OPA);
-
-                            tablaTriplo += numeroLinea + "," + T + NUMERO + "," + partesIntervalo[0] + "," + "=\n";
-                            numeroLinea++;
-
-                            tablaTriplo += numeroLinea + "," + T + NUMERO + "," + operandoPartes[1] + "," + OPA + "\n";
-                            numeroLinea++;
-
-                            tablaTriplo += numeroLinea + "," + partesIntervalo[0] + "," + T + NUMERO + "," + "=\n";
-                            numeroLinea++;
+                        // Generamos el triplo del incremento del ciclo for
+                        for (String OPA : operadoresAritmeticos) {
+                            if (expresion.contains(OPA)) {
+                                String[] operandoPartes = expresion.split("\\" + OPA);
+                                tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[0].trim() + "," + "=\n";
+                                numeroLinea++;
+                                
+                                tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[1].trim() + "," + OPA + "\n";
+                                numeroLinea++;
+                                
+                                tablaTriplo += numeroLinea + "," + variable + "," + T + 1 + "," + "=\n";
+                                numeroLinea++;
+                                break;
+                            }
                         }
                     }
                 }
-            } else if (linea.contains("}")) {
-                tablaTriplo += numeroLinea + ",,,JR\n";
+                
+                //---Agregar un salto de linea al termino del ciclo for------- 
+                tablaTriplo += numeroLinea + ",,"+lineaCondicionFor+","+jr+"\n";
                 if (dentroFOR) {
                     finFor = numeroLinea + 1;
                     if (code.contains(finCicloFor)) {
                         tablaTriplo += numeroLinea + ",,FINELSE,JR\n";
                     }
+                    
                     numeroLinea++;
                     dentroFOR = false;
                     ahora = true;
@@ -342,6 +360,7 @@ public class Triplos {
             tablaTriplo = tablaTriplo.replace("FINELSE", "" + fin);
         }
 
+        //--------Almacenamos el triplo en un archivo csv 
         Exportar imp = new Exportar();
         imp.Imprimir("./Triplos.csv", tablaTriplo);
 

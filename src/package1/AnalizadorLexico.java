@@ -37,6 +37,7 @@ public class AnalizadorLexico {
 
     //Metodo para dividir las expresiones en tokens
     public void analizarExpresiones(String expreciones, int linea) {
+        
         String[] expreciones1 = expreciones.split("\n");// buscamos un salto de linea
         linea = 0;//inicializar en cero
         for (String exprecion : expreciones1) {
@@ -50,7 +51,6 @@ public class AnalizadorLexico {
                 String lexema = st.nextToken();
                 if (!lexema.equals("\n") && !lexema.equals("\t") && !lexema.equals(" ")) {
                     analizarLexema(lexema, linea, st);//llamamos al metodo analizar lexema y le pasamos los parametros 
-                    // System.out.println(" Numero de linea :"+linea+ ", lexema :"+lexema+ " token : "+expresion1);
                 }
             }
         }
@@ -90,6 +90,7 @@ public class AnalizadorLexico {
 
                         // Obtiene el valor asignado
                         //String valorAsignado = capturarValorCompleto(st);
+                        
                         String valorAsignado = st.hasMoreTokens() ? st.nextToken() : "";
                         ladoIzquierdo = valorAsignado;
                         System.out.println("Operando lado Izquierdo :" + ladoIzquierdo);
@@ -107,14 +108,22 @@ public class AnalizadorLexico {
                         } else if (identificadoresTipo.containsKey(valorAsignado)) {
                             identificadoresTipo.put(lexema, identificadoresTipo.get(valorAsignado));
                             rowsTableSymbol.add(new String[]{lexema, identificadoresTipo.get(valorAsignado)});
-                        } else {
+                            
+                        } 
+                        else {
+                            
                             // Variable indefinida
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + valorAsignado + " linea :" + Integer.toString(linea) + " ");
                             rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, valorAsignado, Integer.toString(linea), "Variable indefinida"});
                             contadorErrorSemantico++;
+    
+                            //Agregar la variable de asignacion sin tipo de dato 
+                            identificadoresTipo.put(lexema, ""); 
+                            rowsTableSymbol.add(new String[]{lexema, ""});
                         }
                         return;
                     } else {
+                        
                         // Verifica si el identificador ya tiene tipo asignado
                         if (!identificadoresTipo.containsKey(lexema)) {
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + lexema + " linea :" + Integer.toString(linea) + " ");
@@ -152,6 +161,7 @@ public class AnalizadorLexico {
                 return;
             }
 
+             //---------------AQUI SE VERIFICA LA INCOMPATIBILIDAD DE TIPOS----------- 
             // Verifica si es un operador aritmético
             pattern = Pattern.compile(OperadoresAritmeticos);
             if (pattern.matcher(lexema).matches()) {
@@ -165,13 +175,20 @@ public class AnalizadorLexico {
                     System.out.println("operando 2:" + operando2);
                     String tipoOperando2 = obtenerTipoOperando(operando2);
 
-                    if (tipoOperando1 == null || tipoOperando2 == null) {
-                        // rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Variable idefinida "});
-                        // contadorErrorSemantico++;
+                    if (tipoOperando2 == null) {
+                        rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando2, Integer.toString(linea), "Variable idefinida "});
+                        contadorErrorSemantico++;
+   
 
                     } else if (!tiposCompatibles(tipoOperando1, tipoOperando2)) {
                         rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Incompatibilidad de tipos, " + (variableAsignacion != null ? variableAsignacion : "")});
                         contadorErrorSemantico++;
+                        
+                       if (variableAsignacion != null) {
+                        identificadoresTipo.put(variableAsignacion, "");
+                        agregarOActualizarSimbolo(variableAsignacion, ""); 
+                    }
+                       
                     } else {
 
                     }
@@ -206,7 +223,7 @@ public class AnalizadorLexico {
         }
     }
 
-// Método para obtener el tipo de un operando, considerando identificadores y valores
+    // Método para obtener el tipo de un operando, considerando identificadores y valores
     private String obtenerTipoOperando(String operando) {
         if (identificadoresTipo.containsKey(operando)) {
             return identificadoresTipo.get(operando);
@@ -245,6 +262,21 @@ public class AnalizadorLexico {
         }
         return false;
     }
+    
+    private void agregarOActualizarSimbolo(String variable, String tipo) {
+    boolean encontrado = false;
+    for (String[] row : rowsTableSymbol) {
+        if (row[0].equals(variable)) {
+            row[1] = tipo; // Actualiza el tipo existente
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        rowsTableSymbol.add(new String[]{variable, tipo}); // Agrega si no existe
+    }
+}
+
 
     private void addTable() {//metodo para agregar los lexemas a la tablas
         clearTable();
