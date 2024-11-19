@@ -24,6 +24,7 @@ public class Triplos {
         String simboloActual = "";
 
         int NUMERO = 1, numeroLinea = 1, primerTrue = 0, finFor = 0, fin = 0, second = 0;
+        int NumeroTemporal;
         int lineaCondicionFor = 0;
         String[] partes2 = {};
 
@@ -51,7 +52,7 @@ public class Triplos {
                         tablaTriplo += numeroLinea + "," + T + NUMERO + "," + partesInicializacion[1].trim() + "," + "=\n";
                         numeroLinea++;
 
-                        tablaTriplo += numeroLinea + "," + partesInicializacion[0].trim()  + ","+ T + NUMERO + "," + "=\n";
+                        tablaTriplo += numeroLinea + "," + partesInicializacion[0].trim() + "," + T + NUMERO + "," + "=\n";
                         numeroLinea++;
                     }
 
@@ -167,152 +168,82 @@ public class Triplos {
                         }
                     }
                 }
-            } else if (linea.contains("=")) {
-                for (String operador : operadoresAritmeticos) {
+            } 
 
-                    if (linea.contains(operador)) {
-                        String[] partido = linea.replace(";", "").trim().split("=");
-                        String ladoIzquierdo = partido[0].trim();
-                        String ladoDerecho = partido[1].trim();
+            //-------- PROCESAR  Triplos para las operaciones aritmeticas ------ 
+            
+            else if (linea.contains("=")) {
 
-                        int contadorOperadores = 0;
+                NumeroTemporal = 1;
+                String[] partido = linea.replace(";", "").trim().split("=");
+                String ladoIzquierdo = partido[0].trim();
+                String ladoDerecho = partido[1].trim();
 
-                        for (String op : operadoresAritmeticos) {
-                            if (ladoDerecho.contains(op)) {
-                                contadorOperadores++;
-                            }
-                        }
+                // Verificar si el lado derecho es una asignación simple (sin operadores)
+                if (ladoDerecho.matches("\\d+\\.?\\d*|[a-zA-Z]+")) {
+                    // Generar triplo para asignación simple
+                    tablaTriplo +=numeroLinea+ "," +T + NumeroTemporal + "," + ladoDerecho + ","+ "=\n";
+                    numeroLinea++;
 
-                        if (contadorOperadores == 2) {
-                            List<Integer> posiciones = new ArrayList<>();
+                    tablaTriplo +=numeroLinea +","+ ladoIzquierdo + ",T" + NumeroTemporal + "," +"=\n";
+                    numeroLinea++;
+  
+                } 
+                
+                else {
+                    // Procesamiento habitual para expresiones complejas
+                    List<String> tokens = new ArrayList<>();
+                    List<String> operadores = new ArrayList<>();
+                    StringBuilder sb = new StringBuilder();
 
-                            List<String> operadoresEncontrados = new ArrayList<>();
-                            for (String op : operadoresAritmeticos) {
-                                int pos = ladoDerecho.indexOf(op);
-                                while (pos != -1) {
-                                    posiciones.add(pos);
-                                    System.out.println("posiciones +" + posiciones);
-                                    operadoresEncontrados.add(op);
-                                    pos = ladoDerecho.indexOf(op, pos + 1);
-                                }
-                            }
-
-                            if (posiciones.size() == 2) {
-                                int pos1 = posiciones.get(0);
-                                int pos2 = posiciones.get(1);
-                                String operador1 = operadoresEncontrados.get(0);
-                                String operador2 = operadoresEncontrados.get(1);
-
-                                String parte1 = ladoDerecho.substring(0, pos1).trim();
-                                String parte2 = ladoDerecho.substring(pos1 + operador1.length(), pos2).trim();
-                                String parte3 = ladoDerecho.substring(pos2 + operador2.length()).trim();
-
-                                System.out.println("parte 1: " + parte1);
-                                System.out.println("parte 2: " + parte2);
-                                System.out.println("parte 3: " + parte3);
-                                System.out.println("operador1: " + operador1);
-                                System.out.println("operador2: " + operador2);
-
-                                if ((operador1.equals("*") || operador1.equals("/")) && (operador2.equals("+") || operador2.equals("-"))) {
-                                    System.out.println("bloque 1");
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte1 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte2 + "," + operador1 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + parte3 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + T + NUMERO + "," + operador2 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + T + (NUMERO + 1) + "," + "=\n";
-                                    numeroLinea++;
-
-                                    break;
-
-                                } else if ((operador2.equals("*") || operador2.equals("/")) && (operador1.equals("+") || operador1.equals("-"))) {
-                                    System.out.println("bloque 2");
-                                    
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte2 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte3 + "," + operador2 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO+1) + "," + parte1 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + T + NUMERO + "," + operador1 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + T + (NUMERO + 1) + "," + "=\n";
-                                    numeroLinea++;
-
-                                    break;
-                                } else {
-                                    System.out.println("bloque 3");
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte1 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parte2 + "," + operador1 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + parte3 + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + (NUMERO + 1) + "," + T + NUMERO + "," + operador2 + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + T + (NUMERO + 1) + "," + "=\n";
-                                    numeroLinea++;
-                                    break;
-                                }
-                            }
-
-                        } else if (contadorOperadores == 1) {
-
-                            for (String operadorUnico : operadoresAritmeticos) {
-                                if (ladoDerecho.contains(operadorUnico)) {
-                                    String[] parts = ladoDerecho.split("\\" + operadorUnico);
-
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parts[0].trim() + "," + "=\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + parts[1].trim() + "," + operadorUnico + "\n";
-                                    numeroLinea++;
-
-                                    tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + T + NUMERO + "," + "=\n";
-                                    numeroLinea++;
-                                    break;
-                                }
-                            }
+                    for (char c : ladoDerecho.toCharArray()) {
+                        if (Character.isDigit(c) || Character.isLetter(c) || c == '.') {
+                            sb.append(c);
+                        } else if ("+-*/%".indexOf(c) >= 0) {
+                            tokens.add(sb.toString());
+                            operadores.add(String.valueOf(c));
+                            sb.setLength(0);
                         }
                     }
-                }
-                
-                //------ Triplo para las variables de asignacion --------
-                linea = linea.trim();
-                if (!linea.contains("+") && !linea.contains("-") && !linea.contains("/") && !linea.contains("%") && !linea.contains("*")) {
-                    String[] par = linea.replace(";", "").split("=");
+                    tokens.add(sb.toString());
 
-                    tablaTriplo += numeroLinea + "," + T + NUMERO + "," + par[1] + "," + "=\n";
+                    while (!operadores.isEmpty()) {
+                        int idx = operadores.indexOf("*");
+                        if (idx == -1) {
+                            idx = operadores.indexOf("/");
+                        }
+                        if (idx == -1) {
+                            idx = operadores.indexOf("+");
+                        }
+                        if (idx == -1) {
+                            idx = operadores.indexOf("-");
+                        }
+
+                        String op1 = tokens.remove(idx);
+                        String op2 = tokens.remove(idx);
+                        String operador = operadores.remove(idx);
+
+                        tablaTriplo += numeroLinea + "," + "T" + NumeroTemporal + "," + op1 + "," + "=\n";
+                       
+
+                        tablaTriplo += numeroLinea + "," + "T" + NumeroTemporal + "," + op2 + "," + operador + "\n";
+                        tokens.add(idx, "T" + NumeroTemporal);
+
+                        NumeroTemporal++;
+                        numeroLinea++;
+                    }
+
+                    tablaTriplo += numeroLinea + "," + ladoIzquierdo + "," + "T" + (NumeroTemporal - 1) + "," + "=\n";
                     numeroLinea++;
-
-                    tablaTriplo += numeroLinea + "," + par[0] + "," + T + NUMERO + "," + "=\n";
-                    numeroLinea++;
                 }
-
-                
-                
-            } 
-            //----buscar el fin del ciclo for---------- 
+            }
+            
+            //---- Buscar el fin del ciclo for---------- 
             else if (linea.contains("}")) {
-                
-                 //------Procesamos el intervalo al final de cada iteración antes del cierre `}`
+
+                //------Procesamos el intervalo al final de cada iteración antes del cierre `}`
                 if (!intervalo.isEmpty()) {
-                    
+
                     if (intervalo.contains("=")) {
                         String[] partesIntervalo = intervalo.split("=");
                         String variable = partesIntervalo[0].trim();
@@ -324,26 +255,26 @@ public class Triplos {
                                 String[] operandoPartes = expresion.split("\\" + OPA);
                                 tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[0].trim() + "," + "=\n";
                                 numeroLinea++;
-                                
+
                                 tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[1].trim() + "," + OPA + "\n";
                                 numeroLinea++;
-                                
+
                                 tablaTriplo += numeroLinea + "," + variable + "," + T + 1 + "," + "=\n";
                                 numeroLinea++;
-                                break;
+
                             }
                         }
                     }
                 }
-                
+
                 //---Agregar un salto de linea al termino del ciclo for------- 
-                tablaTriplo += numeroLinea + ",,"+lineaCondicionFor+","+jr+"\n";
+                tablaTriplo += numeroLinea + ",," + lineaCondicionFor + "," + jr + "\n";
                 if (dentroFOR) {
                     finFor = numeroLinea + 1;
                     if (code.contains(finCicloFor)) {
                         tablaTriplo += numeroLinea + ",,FINELSE,JR\n";
                     }
-                    
+
                     numeroLinea++;
                     dentroFOR = false;
                     ahora = true;

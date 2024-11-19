@@ -37,7 +37,6 @@ public class AnalizadorLexico {
 
     //Metodo para dividir las expresiones en tokens
     public void analizarExpresiones(String expreciones, int linea) {
-        
         String[] expreciones1 = expreciones.split("\n");// buscamos un salto de linea
         linea = 0;//inicializar en cero
         for (String exprecion : expreciones1) {
@@ -51,6 +50,7 @@ public class AnalizadorLexico {
                 String lexema = st.nextToken();
                 if (!lexema.equals("\n") && !lexema.equals("\t") && !lexema.equals(" ")) {
                     analizarLexema(lexema, linea, st);//llamamos al metodo analizar lexema y le pasamos los parametros 
+                    // System.out.println(" Numero de linea :"+linea+ ", lexema :"+lexema+ " token : "+expresion1);
                 }
             }
         }
@@ -108,25 +108,22 @@ public class AnalizadorLexico {
                         } else if (identificadoresTipo.containsKey(valorAsignado)) {
                             identificadoresTipo.put(lexema, identificadoresTipo.get(valorAsignado));
                             rowsTableSymbol.add(new String[]{lexema, identificadoresTipo.get(valorAsignado)});
-                            
-                        } 
-                        else {
-                            
+                        } else {
                             // Variable indefinida
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + valorAsignado + " linea :" + Integer.toString(linea) + " ");
                             rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, valorAsignado, Integer.toString(linea), "Variable indefinida"});
                             contadorErrorSemantico++;
-    
+                            
                             //Agregar la variable de asignacion sin tipo de dato 
                             identificadoresTipo.put(lexema, ""); 
                             rowsTableSymbol.add(new String[]{lexema, ""});
                         }
                         return;
                     } else {
-                        
                         // Verifica si el identificador ya tiene tipo asignado
                         if (!identificadoresTipo.containsKey(lexema)) {
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + lexema + " linea :" + Integer.toString(linea) + " ");
+                            
                             rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, lexema, Integer.toString(linea), "Variable indefinida"});
                             contadorErrorSemantico++;
                         } else {
@@ -161,37 +158,38 @@ public class AnalizadorLexico {
                 return;
             }
 
-             //---------------AQUI SE VERIFICA LA INCOMPATIBILIDAD DE TIPOS----------- 
             // Verifica si es un operador aritmético
             pattern = Pattern.compile(OperadoresAritmeticos);
             if (pattern.matcher(lexema).matches()) {
                 if (st.hasMoreTokens()) {
 
                     String operando1 = ladoIzquierdo;
-                    System.out.println("operando 1:" + operando1);
+                    System.out.println(" operando 1:" + operando1);
                     String tipoOperando1 = obtenerTipoOperando(operando1);
 
                     String operando2 = st.nextToken();
-                    System.out.println("operando 2:" + operando2);
+                    System.out.println(" operando 2:" + operando2);
                     String tipoOperando2 = obtenerTipoOperando(operando2);
 
-                    if (tipoOperando2 == null) {
-                        rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando2, Integer.toString(linea), "Variable idefinida "});
-                        contadorErrorSemantico++;
-   
-
-                    } else if (!tiposCompatibles(tipoOperando1, tipoOperando2)) {
+                    if (tipoOperando1 == null || tipoOperando2 == null) {
+                         //rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Variable idefinida"});
+                         //contadorErrorSemantico++;
+                    }
+                    
+                    
+                    else if (!tiposCompatibles(tipoOperando1, tipoOperando2)) {
                         rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Incompatibilidad de tipos, " + (variableAsignacion != null ? variableAsignacion : "")});
                         contadorErrorSemantico++;
-                        
-                       if (variableAsignacion != null) {
-                        identificadoresTipo.put(variableAsignacion, "");
-                        agregarOActualizarSimbolo(variableAsignacion, ""); 
-                    }
                        
-                    } else {
-
+                    
+                        // se actualiza el valor de la variable de asignacion a "vacio"
+                        if (variableAsignacion != null) {
+                            identificadoresTipo.put(variableAsignacion, "");
+                            agregarOActualizarSimbolo(variableAsignacion, "");
+                        }
                     }
+                    
+
                 }
                 rowsTableSymbol.add(new String[]{lexema, ""}); //agregar los operadores aritmeticos a la tabla 
                 return;
@@ -213,13 +211,14 @@ public class AnalizadorLexico {
                 rowsTableSymbol.add(new String[]{lexema, ""});
                 return;
             }
-            
-            //verifica si es una operacion relacional
+
+            // Verifica si es una operación relacional
             pattern = Pattern.compile(OperadoresRelacionales);
-            if(pattern.matcher(lexema).matches()){
-                rowsTableSymbol.add(new String [] {lexema, ""});
+            if (pattern.matcher(lexema).matches()) {
+                rowsTableSymbol.add(new String[]{lexema, ""});
                 return;
             }
+
         }
     }
 
@@ -262,7 +261,8 @@ public class AnalizadorLexico {
         }
         return false;
     }
-    
+
+    //METODO PARA ACTUALIZAR LA TABLA DE SIMBOLO
     private void agregarOActualizarSimbolo(String variable, String tipo) {
     boolean encontrado = false;
     for (String[] row : rowsTableSymbol) {
@@ -276,8 +276,9 @@ public class AnalizadorLexico {
         rowsTableSymbol.add(new String[]{variable, tipo}); // Agrega si no existe
     }
 }
-
-
+    
+  
+    
     private void addTable() {//metodo para agregar los lexemas a la tablas
         clearTable();
         for (String[] row : rowsTableSymbol) {
@@ -287,7 +288,7 @@ public class AnalizadorLexico {
             modelTableError.addRow(row);
         }
     }
-
+    
     private void clearTable() {//metodo para limpiar las tablas
         for (int k = modelTableSymbol.getRowCount() - 1; k >= 0; k -= 1) {
             modelTableSymbol.removeRow(k);
