@@ -57,6 +57,7 @@ public class AnalizadorLexico {
         addTable();//agregamos los tokens a la tabla 
     }
 
+    // Metodo principal para analizar los lexemas
     private void analizarLexema(String lexema, int linea, StringTokenizer st) {
         //se verifica si los lexemas no han sido analizazdos
         if (!lexemaYaAnalizado(lexema)) {
@@ -276,9 +277,7 @@ public class AnalizadorLexico {
         rowsTableSymbol.add(new String[]{variable, tipo}); // Agrega si no existe
     }
 }
-    
-  
-    
+   
     private void addTable() {//metodo para agregar los lexemas a la tablas
         clearTable();
         for (String[] row : rowsTableSymbol) {

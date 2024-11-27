@@ -180,7 +180,7 @@ public class Triplos {
                 String ladoDerecho = partido[1].trim();
 
                 // Verificar si el lado derecho es una asignación simple (sin operadores)
-                if (ladoDerecho.matches("\\d+\\.?\\d*|[a-zA-Z]+")) {
+                if (ladoDerecho.matches("\\d+\\.?\\d*|[a-zA-Z][a-zA-Z0-9_]*")) {
                     // Generar triplo para asignación simple
                     tablaTriplo +=numeroLinea+ "," +T + NumeroTemporal + "," + ladoDerecho + ","+ "=\n";
                     numeroLinea++;
