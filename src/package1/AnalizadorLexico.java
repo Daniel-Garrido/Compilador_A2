@@ -57,6 +57,7 @@ public class AnalizadorLexico {
         addTable();//agregamos los tokens a la tabla 
     }
 
+    // Metodo principal para analizar los lexemas
     private void analizarLexema(String lexema, int linea, StringTokenizer st) {
         //se verifica si los lexemas no han sido analizazdos
         if (!lexemaYaAnalizado(lexema)) {
@@ -66,8 +67,6 @@ public class AnalizadorLexico {
             String NumerosReales = "[0-9]+\\.[0-9]+";
             String Cadenas = "\"[^\"]*\"";
             String OperadoresAritmeticos = "[+\\-*/%]";
-            String OperadoresLogicosYBooleanos = ("&&|(\\|\\|)");
-            String Funcion;
             String OperadoresRelacionales = ("<]|<=|>|>=|==|!=");
             String Asignacion = "=";
             String Separadores = "[(){},;]";
@@ -92,6 +91,7 @@ public class AnalizadorLexico {
 
                         // Obtiene el valor asignado
                         //String valorAsignado = capturarValorCompleto(st);
+                        
                         String valorAsignado = st.hasMoreTokens() ? st.nextToken() : "";
                         ladoIzquierdo = valorAsignado;
                         System.out.println("Operando lado Izquierdo :" + ladoIzquierdo);
@@ -114,12 +114,17 @@ public class AnalizadorLexico {
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + valorAsignado + " linea :" + Integer.toString(linea) + " ");
                             rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, valorAsignado, Integer.toString(linea), "Variable indefinida"});
                             contadorErrorSemantico++;
+                            
+                            //Agregar la variable de asignacion sin tipo de dato 
+                            identificadoresTipo.put(lexema, ""); 
+                            rowsTableSymbol.add(new String[]{lexema, ""});
                         }
                         return;
                     } else {
                         // Verifica si el identificador ya tiene tipo asignado
                         if (!identificadoresTipo.containsKey(lexema)) {
                             System.out.println("Variable indefinida " + contadorErrorSemantico + " valor asignado :" + lexema + " linea :" + Integer.toString(linea) + " ");
+                            
                             rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, lexema, Integer.toString(linea), "Variable indefinida"});
                             contadorErrorSemantico++;
                         } else {
@@ -168,15 +173,24 @@ public class AnalizadorLexico {
                     String tipoOperando2 = obtenerTipoOperando(operando2);
 
                     if (tipoOperando1 == null || tipoOperando2 == null) {
-                        // rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Variable idefinida "});
-                        // contadorErrorSemantico++;
-
-                    } else if (!tiposCompatibles(tipoOperando1, tipoOperando2)) {
+                         //rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Variable idefinida"});
+                         //contadorErrorSemantico++;
+                    }
+                    
+                    
+                    else if (!tiposCompatibles(tipoOperando1, tipoOperando2)) {
                         rowsTableError.add(new String[]{"ErrorS" + contadorErrorSemantico, operando1, Integer.toString(linea), "Incompatibilidad de tipos, " + (variableAsignacion != null ? variableAsignacion : "")});
                         contadorErrorSemantico++;
-                    } else {
-
+                       
+                    
+                        // se actualiza el valor de la variable de asignacion a "vacio"
+                        if (variableAsignacion != null) {
+                            identificadoresTipo.put(variableAsignacion, "");
+                            agregarOActualizarSimbolo(variableAsignacion, "");
+                        }
                     }
+                    
+
                 }
                 rowsTableSymbol.add(new String[]{lexema, ""}); //agregar los operadores aritmeticos a la tabla 
                 return;
@@ -198,10 +212,18 @@ public class AnalizadorLexico {
                 rowsTableSymbol.add(new String[]{lexema, ""});
                 return;
             }
+
+            // Verifica si es una operación relacional
+            pattern = Pattern.compile(OperadoresRelacionales);
+            if (pattern.matcher(lexema).matches()) {
+                rowsTableSymbol.add(new String[]{lexema, ""});
+                return;
+            }
+
         }
     }
 
-// Método para obtener el tipo de un operando, considerando identificadores y valores
+    // Método para obtener el tipo de un operando, considerando identificadores y valores
     private String obtenerTipoOperando(String operando) {
         if (identificadoresTipo.containsKey(operando)) {
             return identificadoresTipo.get(operando);
@@ -241,6 +263,21 @@ public class AnalizadorLexico {
         return false;
     }
 
+    //METODO PARA ACTUALIZAR LA TABLA DE SIMBOLO
+    private void agregarOActualizarSimbolo(String variable, String tipo) {
+    boolean encontrado = false;
+    for (String[] row : rowsTableSymbol) {
+        if (row[0].equals(variable)) {
+            row[1] = tipo; // Actualiza el tipo existente
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        rowsTableSymbol.add(new String[]{variable, tipo}); // Agrega si no existe
+    }
+}
+   
     private void addTable() {//metodo para agregar los lexemas a la tablas
         clearTable();
         for (String[] row : rowsTableSymbol) {
@@ -250,7 +287,7 @@ public class AnalizadorLexico {
             modelTableError.addRow(row);
         }
     }
-
+    
     private void clearTable() {//metodo para limpiar las tablas
         for (int k = modelTableSymbol.getRowCount() - 1; k >= 0; k -= 1) {
             modelTableSymbol.removeRow(k);
