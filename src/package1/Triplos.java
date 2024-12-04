@@ -175,6 +175,7 @@ public class Triplos {
             else if (linea.contains("=")) {
 
                 NumeroTemporal = 1;
+               
                 String[] partido = linea.replace(";", "").trim().split("=");
                 String ladoIzquierdo = partido[0].trim();
                 String ladoDerecho = partido[1].trim();
@@ -182,10 +183,10 @@ public class Triplos {
                 // Verificar si el lado derecho es una asignación simple (sin operadores)
                 if (ladoDerecho.matches("\\d+\\.?\\d*|[a-zA-Z][a-zA-Z0-9_]*")) {
                     // Generar triplo para asignación simple
-                    tablaTriplo +=numeroLinea+ "," +T + NumeroTemporal + "," + ladoDerecho + ","+ "=\n";
+                    tablaTriplo +=numeroLinea+ "," +T+ NumeroTemporal + "," + ladoDerecho + ","+ "=\n";
                     numeroLinea++;
 
-                    tablaTriplo +=numeroLinea +","+ ladoIzquierdo + ",T" + NumeroTemporal + "," +"=\n";
+                    tablaTriplo +=numeroLinea +","+ ladoIzquierdo + "," +T+ + NumeroTemporal + "," +"=\n";
                     numeroLinea++;
   
                 } 
@@ -224,7 +225,7 @@ public class Triplos {
                         String operador = operadores.remove(idx);
 
                         tablaTriplo += numeroLinea + "," + "T" + NumeroTemporal + "," + op1 + "," + "=\n";
-                       
+                        numeroLinea++;
 
                         tablaTriplo += numeroLinea + "," + "T" + NumeroTemporal + "," + op2 + "," + operador + "\n";
                         tokens.add(idx, "T" + NumeroTemporal);
@@ -255,6 +256,7 @@ public class Triplos {
                                 String[] operandoPartes = expresion.split("\\" + OPA);
                                 tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[0].trim() + "," + "=\n";
                                 numeroLinea++;
+                                System.out.println("Número de línea actual: " + numeroLinea);
 
                                 tablaTriplo += numeroLinea + "," + T + 1 + "," + operandoPartes[1].trim() + "," + OPA + "\n";
                                 numeroLinea++;

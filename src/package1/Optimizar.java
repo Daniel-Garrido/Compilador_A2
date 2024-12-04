@@ -1,10 +1,8 @@
 package package1; 
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.util.logging.Logger;
 import java.util.HashMap;
-
 
 public class Optimizar {
     // Variable global para almacenar el código optimizado
@@ -18,13 +16,13 @@ public class Optimizar {
     }
 
     public void optimizarCodigo(String code, JTextArea textArea) {
-
+        //verificar que haya algo para optimizar 
         if(code.isEmpty()) {
             JOptionPane.showMessageDialog(textArea, "No se ha ingresado código", "Error", 0);
             return;
         }
 
-
+        //verificacion en la consola 
         Logger logger = Logger.getLogger(Optimizar.class.getName());
         if (logger.isLoggable(java.util.logging.Level.INFO)) {
             logger.info(String.format("Entrada: %s%n%n%s", code, "*".repeat(70)));
@@ -68,13 +66,22 @@ public class Optimizar {
                 codigoOptimizado.append(line).append("\n");
                 continue;
             }
-    
+         
             // Reemplazo de constantes
             for (String variable : variables.keySet()) {
                 String value = variables.get(variable);
+
+                // Ignorar identificadores dentro de comillas
+                if (line.matches(".*\".*\\b" + variable + "\\b.*\".*")) {
+                    continue; // Saltar si el identificador está dentro de comillas
+
+                } else if (line.matches(".*[\\+\\-\\*/]\\s*\\b" + variable + "\\b.*")) {
+                    continue; // Saltar esta variable si forma parte de una operación
+                }
+
                 lineaOptimizada = lineaOptimizada.replaceAll("\\b" + variable + "\\b", value);
             }
-    
+
             // Simplificación de operaciones aritméticas triviales
             lineaOptimizada = lineaOptimizada.replaceAll("\\b1\\s*\\*\\s*([a-zA-Z0-9_]+)", "$1"); // 1 * X -> X
             lineaOptimizada = lineaOptimizada.replaceAll("\\b([a-zA-Z0-9_]+)\\s*\\*\\s*1", "$1"); // X * 1 -> X
@@ -93,6 +100,5 @@ public class Optimizar {
         // Mostrar mensaje de optimización correcta
         JOptionPane.showMessageDialog(textArea, "Se ha optimizado correctamente", "Optimizado correcto", 3);
     }    
-
 }
 
