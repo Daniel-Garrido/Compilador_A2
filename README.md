@@ -56,28 +56,29 @@ EQ1110 = EQ1112 * 50; <br>
 
 - **codigo usando un ciclo (For)**
 
-EQ112 = 20;
-for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;)
-{
-EQ117 = EQ112 - 10;
-EQ110 = 100 + 12 / 10;
-}
-EQ115 = 3;
+EQ112 = 20; <br>
+for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;) <br>
+{ <br>
+EQ117 = EQ112 - 10; <br>
+EQ110 = 100 + 12 / 10; <br>
+} <br>
+EQ115 = 3; <br>
 
 - **codigo usando un ciclo (For) para optimizacion**
-EQ114 = 1;
-EQ112 = 0;
-for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;)
-{
-EQ117 = 50 - "EQ112";
-EQ110 = 100 +  EQ1120 / 50;
-EQ118 = 45 * EQ112;
-EQ118 = EQ112 + 1;
-EQ11100 = EQ114 * 5;
-EQ119 = EQ112  + 4;
-}
 
-EQ115 = 3 * "EQ114";
+
+EQ114 = 1; <br>
+EQ112 = 0; <br>
+for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;) <br>
+{ <br>
+EQ117 = 50 - "EQ112"; <br>
+EQ110 = 100 +  EQ1120 / 50; <br>
+EQ118 = 45 * EQ112; <br>
+EQ118 = EQ112 + 1; <br>
+EQ11100 = EQ114 * 5; <br>
+EQ119 = EQ112  + 4; <br>
+} <br>
+EQ115 = 3 * "EQ114"; <br>
 
 ## Interfaz
 
