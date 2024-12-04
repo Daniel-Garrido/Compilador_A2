@@ -1,5 +1,5 @@
 # Proyecto Autómatas 2 
-Este proyecto es parte de la materia de lenguajes y autómatas 2 que tiene la finalidad del desarrollo de un compilador para detectar el analisis léxico y semantico de acuerdo a nuestras reglas establecidas. Actualmente su función es el de analizar datos que se le ingresen por medio de una interfaz de usuario y cumpliendo con las reglas establecidas, posteriormente pasa al llenado de la tabla de simbolos y la tabla de errores.
+Este proyecto es parte de la materia de lenguajes y autómatas 2 que tiene la finalidad del desarrollo de un compilador para detectar el analisis léxico , analisis semantico, codigo intermedio y codigo optimizado, de acuerdo a nuestras reglas establecidas. Actualmente su función es el de analizar datos que se le ingresen por medio de una interfaz de usuario y cumpliendo con las reglas establecidas, posteriormente pasa al llenado de la tabla de simbolos y la tabla de errores. Actualmente también puede transformar un codigo de entrada a un codigo intermedio de acuerdo a las reglas de nuestro proyecto, al igual que se aplica un metodo de optimización conocida como operaciones algebraicas reducibles
 
 ## Instrucciones 
 
@@ -53,6 +53,31 @@ EQ115 = EQ110 / EQ113; <br>
 EQ116 = "mundo" * 20.5; <br>
 EQ119 = 11 / EQ1199 + 5.0; <br>
 EQ1110 = EQ1112 * 50; <br>
+
+- **codigo usando un ciclo (For)**
+
+EQ112 = 20;
+for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;)
+{
+EQ117 = EQ112 - 10;
+EQ110 = 100 + 12 / 10;
+}
+EQ115 = 3;
+
+- **codigo usando un ciclo (For) para optimizacion**
+EQ114 = 1;
+EQ112 = 0;
+for ( EQ111 = 1; EQ111>10 && EQ111<12;  EQ111 = EQ111 + 1;)
+{
+EQ117 = 50 - "EQ112";
+EQ110 = 100 +  EQ1120 / 50;
+EQ118 = 45 * EQ112;
+EQ118 = EQ112 + 1;
+EQ11100 = EQ114 * 5;
+EQ119 = EQ112  + 4;
+}
+
+EQ115 = 3 * "EQ114";
 
 ## Interfaz
 
